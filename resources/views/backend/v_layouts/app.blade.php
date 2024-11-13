@@ -12,8 +12,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('image/icon_univ_bsi.png') }}">
     <title>tokoonline</title>
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/extra
-    libs/multicheck/multicheck.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('backend/extra
+                                    libs/multicheck/multicheck.css') }}">
     <link href="{{ asset('backend/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/dist/css/style.min.css') }}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -131,19 +132,27 @@ sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
                         <!-- ============================================================== -->
 
                         <!-- ============================================================== -->
+                        <!-- ========================================================= -->
                         <!-- User profile and search -->
-                        <!-- ============================================================== -->
+                        <!-- ========================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect 
-                            waves-dark pro-pic"
-                                href="" data-toggle="dropdown" aria-haspopup="true" aria expanded="false"><img
-                                    src="assets/images/users/1.jpg" alt="user" class="rounded-circle"
-                                    width="31"></a>
+waves-dark pro-pic"
+                                href="" data-toggle="dropdown" aria-haspopup="true" aria expanded="false">
+                                @if (Auth::user()->foto)
+                                    <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}" alt="user"
+                                        class="rounded-circle" width="31">
+                                @else
+                                    <img src="{{ asset('storage/img-user/img-default.jpg') }}" alt="user"
+                                        class="rounded-circle" width="31">
+                                @endif
+                            </a>
                             <div
                                 class="dropdown-menu dropdown-menu-right user-dd 
-                            animated">
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i>
-                                    Profil Saya</a>
+                                animated">
+                                <a class="dropdown-item" href="{{ route('backend.user.edit', Auth::user()->id) }}"><i
+                                        class="ti-user m-r-5 m-l-5"></i> Profil
+                                    Saya</a>
                                 <a class="dropdown-item" href=""
                                     onclick="event.preventDefault(); document.getElementById('keluar-app').submit();"><i
                                         class="fa fa-power-off m-r-5 m-l-5"></i> Keluar</a>
@@ -190,12 +199,13 @@ sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
                             shopping"></i><span
                                     class="hide-menu">Data Produk </span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
-                                <li class="sidebar-item"><a href="icon-material.html" class="sidebar-link"><i
-                                            class="mdi mdi-chevron-right"></i><span class="hide-menu"> Kategori
-                                        </span></a>
+                                <li class="sidebar-item"><a href="{{ route('backend.kategori.index') }}"
+                                        class="sidebar-link"><i class="mdi mdi-chevron-right"></i><span
+                                            class="hide-menu"> Kategori </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="icon-fontawesome.html" class="sidebar-link"><i
-                                            class="mdi mdi-chevron-right"></i><span class="hide-menu"> Produk
+                                <li class="sidebar-item"><a href="{{ route('backend.produk.index') }}"
+                                        class="sidebar-link"><i class="mdi mdi-chevron-right"></i><span
+                                            class="hide-menu"> Produk
                                         </span></a>
                                 </li>
                             </ul>
@@ -272,8 +282,7 @@ sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
     <script src="{{ asset('backend/libs/popper.js/dist/umd/popper.min.js') }}"></script>
     <script src="{{ asset('backend/libs/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="{{ asset('backend/libs/perfect-scrollbar/dist/perfect
-        scrollbar.jquery.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js') }}"></script>
     <script src="{{ asset('backend/extra-libs/sparkline/sparkline.js') }}"></script>
     <!--Wave Effects -->
     <script src="{{ asset('backend/dist/js/waves.js') }}"></script>
@@ -290,6 +299,16 @@ sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
          *       Basic Table                   * 
          ****************************************/
         $('#zero_config').DataTable();
+    </script>
+
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script> 
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#ckeditor'))
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 
     <!-- form keluar app -->
@@ -313,32 +332,31 @@ sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
         </script>
     @endif
     <!-- konfirmasi success End-->
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         //Konfirmasi delete 
-        $('.show_confirm').click(function(event) { 
-            var form = $(this).closest("form"); 
-            var konfdelete = $(this).data("konf-delete"); 
-            event.preventDefault(); 
-            Swal.fire({ 
-                title: 'Konfirmasi Hapus Data?', 
-                html: "Data yang dihapus <strong>" + konfdelete + "</strong> tidak dapat 
-dikembalikan!", 
-                icon: 'warning', 
-                showCancelButton: true, 
-                confirmButtonColor: '#3085d6', 
-                cancelButtonColor: '#d33', 
-                confirmButtonText: 'Ya, dihapus', 
-                cancelButtonText: 'Batal' 
-            }).then((result) => { 
-                if (result.isConfirmed) { 
-                    Swal.fire('Terhapus!', 'Data berhasil dihapus.', 'success') 
-                        .then(() => { 
-                            form.submit(); 
-                        }); 
-                } 
-            }); 
-        }); 
-</script> 
+        $('.show_confirm').click(function(event) {
+            var form = $(this).closest("form");
+            var konfdelete = $(this).data("konf-delete");
+            event.preventDefault();
+            Swal.fire({
+                title: 'Konfirmasi Hapus Data?',
+                html: "Data yang dihapus <strong>" + konfdelete + "</strong> tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, dihapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire('Terhapus!', 'Data berhasil dihapus.', 'success')
+                        .then(() => {
+                            form.submit();
+                        });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
