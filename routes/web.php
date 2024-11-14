@@ -3,6 +3,7 @@
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +19,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [OrderController::class, 'index'])->name('index'); 
+
+Route::get('/order/{id}', [OrderController::class, 'order'])->name('order'); 
+Route::get('/order/{id}/formorder', [OrderController::class, 'create'])->name('formorder'); 
+Route::post('/order/formorder', [OrderController::class, 'store'])->name('orderstore'); 
+
 
 Route::get('backend/beranda', [BerandaController::class, 'berandaBackend'])->name('backend.beranda')->middleware('auth'); 
 
@@ -43,6 +47,9 @@ Route::resource('backend/produk', ProdukController::class, ['as' => 'backend'])-
 // Untuk mencetak struk 
 Route::get('backend/laporan/formproduk', [ProdukController::class, 'formProduk'])->name('backend.laporan.formproduk')->middleware('auth'); 
 Route::post('backend/laporan/cetakproduk', [ProdukController::class, 'cetakProduk'])->name('backend.laporan.cetakproduk')->middleware('auth'); 
+
+
+Route::get('backend/order', [OrderController::class, 'indexadmin'])->name('backend.order.index')->middleware('auth'); 
 
 // Route untuk menambahkan foto 
 Route::post('foto-produk/store', [ProdukController::class, 'storeFoto'])->name('backend.foto_produk.store')->middleware('auth'); 

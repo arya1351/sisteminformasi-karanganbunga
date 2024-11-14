@@ -117,8 +117,7 @@ hanyaAngka(event)" name="stok"
                             <div class="card-body">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                                 <a href="{{ route('backend.produk.index') }}">
-                                    <button type="button" class="btn btn
-secondary">Kembali</button>
+                                    <button type="button" class="btn btn-secondary">Kembali</button>
                                 </a>
                             </div>
                         </div>

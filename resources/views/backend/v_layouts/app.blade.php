@@ -12,9 +12,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('image/icon_univ_bsi.png') }}">
     <title>tokoonline</title>
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('backend/extra
-                                                    libs/multicheck/multicheck.css') }}">
+    <link rel="stylesheet" type="text/css"href="{{ asset('backend/extralibs/multicheck/multicheck.css') }}">
     <link href="{{ asset('backend/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/dist/css/style.min.css') }}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -153,6 +151,8 @@ waves-dark pro-pic"
                                 <a class="dropdown-item" href="{{ route('backend.user.edit', Auth::user()->id) }}"><i
                                         class="ti-user m-r-5 m-l-5"></i> Profil
                                     Saya</a>
+                                    <a class="dropdown-item" href="{{ route('index')}}"><i
+                                        class="ti-home m-r-5 m-l-5"></i> Homepage</a>
                                 <a class="dropdown-item" href=""
                                     onclick="event.preventDefault(); document.getElementById('keluar-app').submit();"><i
                                         class="fa fa-power-off m-r-5 m-l-5"></i> Keluar</a>
@@ -208,6 +208,11 @@ waves-dark pro-pic"
                                             class="hide-menu"> Produk
                                         </span></a>
                                 </li>
+                                <li class="sidebar-item"><a href="{{ route('backend.order.index') }}"
+                                    class="sidebar-link"><i class="mdi mdi-chevron-right"></i><span
+                                        class="hide-menu"> Order
+                                    </span></a>
+                            </li>
                             </ul>
                         </li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark"
@@ -222,7 +227,10 @@ waves-dark pro-pic"
                                         class="sidebar-link"><i
                                             class="mdi mdi-chevron-right"></i><span
                                             class="hide-menu"> Produk </span></a></li>
-
+                                            {{-- <li class="sidebar-item"><a href="{{ route('backend.laporan.formorder') }}"
+                                                class="sidebar-link"><i
+                                                    class="mdi mdi-chevron-right"></i><span
+                                                    class="hide-menu"> Produk </span></a></li> --}}
                             </ul>
                         </li>
 

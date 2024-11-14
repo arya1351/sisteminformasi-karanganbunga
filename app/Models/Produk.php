@@ -24,4 +24,8 @@ class Produk extends Model
     {
         return $this->hasMany(FotoProduk::class);
     }
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }
