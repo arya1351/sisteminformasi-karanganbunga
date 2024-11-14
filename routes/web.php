@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [OrderController::class, 'index'])->name('index'); 
 
 Route::get('/order/{id}', [OrderController::class, 'order'])->name('order'); 
-Route::get('/order/{id}/formorder', [OrderController::class, 'create'])->name('formorder'); 
+Route::get('/order/{id}/formorder', action: [OrderController::class, 'create'])->name('formorder');
 Route::post('/order/formorder', [OrderController::class, 'store'])->name('orderstore'); 
 
 
