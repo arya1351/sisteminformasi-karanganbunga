@@ -14,7 +14,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css"
         href="{{ asset('backend/extra
-                                    libs/multicheck/multicheck.css') }}">
+                                                    libs/multicheck/multicheck.css') }}">
     <link href="{{ asset('backend/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/dist/css/style.min.css') }}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -210,6 +210,21 @@ waves-dark pro-pic"
                                 </li>
                             </ul>
                         </li>
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark"
+                                href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span
+                                    class="hide-menu">Laporan </span></a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+                                <li class="sidebar-item"><a href="{{ route('backend.laporan.formuser') }}"
+                                        class="sidebar-link"><i
+                                            class="mdi mdi-chevron-right"></i><span
+                                            class="hide-menu"> User </span></a></li>
+                                <li class="sidebar-item"><a href="{{ route('backend.laporan.formproduk') }}"
+                                        class="sidebar-link"><i
+                                            class="mdi mdi-chevron-right"></i><span
+                                            class="hide-menu"> Produk </span></a></li>
+
+                            </ul>
+                        </li>
 
                     </ul>
                 </nav>
@@ -302,7 +317,7 @@ waves-dark pro-pic"
     </script>
 
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script> 
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
     <script>
         ClassicEditor
             .create(document.querySelector('#ckeditor'))

@@ -9,7 +9,6 @@
                     <div class="card-body">
                         <h4 class="card-title">{{ $judul }}</h4>
                         <div class="row">
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Kategori</label>
@@ -52,18 +51,20 @@
                                         </span>
                                     @enderror
                                 </div>
+                            </div>
+                            
+                            <div class="col-md-6">
                                 <div class="form-group">
+                                    <div class="col-md-8">
                                     <label>Foto Utama</label> <br>
                                     <img src="{{ asset('storage/img-produk/' . $show->foto) }}" class="foto-preview"
                                         width="100%">
                                 </div>
-                            </div>
-
-                            <div class="col-md-6">
+                                </div>
                                 <label>Foto Tambahan</label>
                                 <div id="foto-container">
                                     <div class="row">
-                                        @foreach ($show->gambar as $gambar)
+                                        @foreach ($show->fotoProduk as $gambar)
                                             <div class="col-md-8">
                                                 <img src="{{ asset('storage/img-produk/' . $gambar->foto) }}"
                                                     width="100%">
