@@ -5,10 +5,6 @@
     <div class="row">
 
         <div class="col-12">
-            <a href="{{ route('backend.produk.create') }}">
-                <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i>
-                    Tambah</button>
-            </a>
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"> {{ $judul }} </h5>
@@ -35,17 +31,20 @@
                                         <td> {{ $order->nama }} </td>
                                         <td>{{ $order->no_telepon }} </td>
                                         <td> {{ $order->qty }} </td>
-                                        <td> {{ $order->status }} </td>
+                                        <td>  
+                                            @if ($order->status == "paid")
+                                            <span class="badge badge-success"></i>
+                                                Lunas</span>
+                                        @elseif($order->status =="unpaid")
+                                            <span class="badge badge-secondary"></i>
+                                                Belum Bayar</span>
+                                        @endif </td>
                                         <td> {{ $order->no_resi }} </td>
                                         <td> {{ $order->selling }} </td>
                                         <td>
                                             <a href="{{ route('backend.produk.edit', $order->id) }}" title="Ubah Data">
                                                 <button type="button" class="btn btn-cyan btn-sm"><i
                                                         class="far fa-edit"></i> Ubah</button>
-                                            </a>
-                                            <a href="{{ route('backend.produk.show', $order->id) }}" title="Ubah Data">
-                                                <button type="button" class="btn btn-warning btn-sm"><i
-                                                        class="fas fa-plus"></i> Gambar</button>
                                             </a>
 
                                             <form method="POST" action="{{ route('backend.produk.destroy', $order->id) }}"

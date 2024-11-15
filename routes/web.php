@@ -24,6 +24,9 @@ Route::get('/', [OrderController::class, 'index'])->name('index');
 Route::get('/order/{id}', [OrderController::class, 'order'])->name('order'); 
 Route::get('/order/{id}/formorder', action: [OrderController::class, 'create'])->name('formorder');
 Route::post('/order/formorder', [OrderController::class, 'store'])->name('orderstore'); 
+Route::get('/order/{orderId}/paymentorder/{produkId}/{snapToken}', [OrderController::class, 'paymentorder'])->name('paymentorder');
+
+
 
 
 Route::get('backend/beranda', [BerandaController::class, 'berandaBackend'])->name('backend.beranda')->middleware('auth'); 

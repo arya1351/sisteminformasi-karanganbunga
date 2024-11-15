@@ -1,66 +1,91 @@
 @extends('app')
 @section('content')
     <!-- contentAwal -->
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <form class="form-horizontal" action="{{ route('orderstore') }}" method="post"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div class="card-body">
-                            <h4 class="card-title"> {{ $judul }} </h4>
-                            <div class="row">
-                                <div class="table-responsive">
-                                    <table id="zero_config" class="table-striped table-bordered table">
-                                        <thead>
+                    <div class="card-body">
+                        <h4 class="card-title"> {{ $judul }} </h4>
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table id="zero_config" class="table-striped table-bordered table">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama</th>
+                                            <th>Alamat</th>
+                                            <th>Nomer Telepon</th>
+                                            <th>Quantity</th>
+                                            <th>Total Harga</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        ?>
+                                        @if ($order)
                                             <tr>
-                                                <th>No</th>
-                                                <th>Email</th>
-                                                <th>Nama</th>
-                                                <th>Role</th>
-                                                <th>Status</th>
-                                                <th>Aksi</th>
+                                                <td> {{ $no++ }}</td>
+                                                <td>{{ $order->nama }}</td>
+                                                <td>{{ $order->alamat }}</td>
+                                                <td>{{ $order->no_telepon }}</td>
+                                                <td>{{ $order->qty }}</td>
+                                                <td>{{ $order->total_price }}</td>
                                             </tr>
-                                        </thead>
+                                        @else
+                                            <tr>
+                                                <td colspan="4">Data order tidak ditemukan</td>
+                                            </tr>
+                                        @endif
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                                        <tbody>
-                                            @foreach ($order as $order)
-                                                <tr>
-                                                    <td> {{ $order->nama }} </td>
-                                                    <td> {{ $order->alamat }} </td>
-                                                    <td> {{ $order->no_telepon }} </td>
-                                                    <td> {{ $order->total_price }} </td>
-                                                    <td>
-
-                                                        {{-- <form method="POST"
-                                                            action="{{ route('backend.user.destroy', $order->id) }}"
-                                                            style="display: inline-block;">
-                                                            @method('delete')
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="btn btn-danger btn-sm 
-                                                            show_confirm"
-                                                                data-konf-delete="{{ $order->nama }}" title='Hapus Data'>
-                                                                <i class="fas fa-trash"></i> Hapus</button>
-                                                        </form> --}}
-
-                                                    </td>
-                                                </tr>
-                                </div>
                             </div>
-                            <div class="border-top">
-                                <div class="card-body">
-                                    <button type="submit" class="btn btn-primary">Bayar</button>
-
-                                </div>
+                        </div>
+                        <div class="border-top">
+                            <div class="card-body">
+                                <a class="btn btn-primary" id="pay-button">Bayar</a>
                             </div>
-                    </form>
+                            <div id="snap-container"></div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- contentAkhir -->
-@endsection
+        <!-- @TODO: You can add the desired ID as a reference for the embedId parameter. -->
+
+
+        <script type="text/javascript">
+            var payButton = document.getElementById('pay-button');
+            var paymentInProgress = false;
+
+            payButton.addEventListener('click', function() {
+              
+                window.snap.pay('{{ $snapToken }}', {
+                    onSuccess: function(result) {
+                        alert("Payment success!");
+                        console.log(result);
+                        paymentInProgress = false;
+                    },
+                    onPending: function(result) {
+                        alert("Waiting for your payment!");
+                        console.log(result);
+                        paymentInProgress = false;
+                    },
+                    onError: function(result) {
+                        alert("Payment failed!");
+                        console.log(result);
+                        paymentInProgress = false;
+                    },
+                   
+                });
+            });
+        </script>
+        <!-- contentAkhir -->
+    @endsection

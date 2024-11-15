@@ -3,7 +3,6 @@
 use Illuminate\Support\Str;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Session Driver
@@ -126,10 +125,7 @@ return [
     |
     */
 
-    'cookie' => env(
-        'SESSION_COOKIE',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
-    ),
+    'cookie' => env('SESSION_COOKIE', Str::slug(env('APP_NAME', 'laravel'), '_') . '_session'),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,7 +164,9 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    // config/session.php
+    'same_site' => 'None',
+    'secure' => env('SESSION_SECURE_COOKIE', true), // Pastikan cookies hanya dikirimkan melalui HTTPS
 
     /*
     |--------------------------------------------------------------------------
@@ -210,5 +208,4 @@ return [
     */
 
     'partitioned' => false,
-
 ];

@@ -51,23 +51,21 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        if (!$request->has('produk_id')) {
+            return back()->withErrors('Produk ID tidak ditemukan.');
+        }
         $request->request->add(['total_price' => $request->qty * 150000, 'status' => 'unpaid']);
         $order = Order::create($request->all());
 
-        //SAMPLE REQUEST START HERE
-
-        // Set your Merchant Server Key
+        // Konfigurasi Midtrans
         \Midtrans\Config::$serverKey = config('midtrans.server_key');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
         \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
         $params = [
             'transaction_details' => [
-                'order_id' => $order->id,
+                'order_id' => $order->id, // Gunakan id sebagai order_id
                 'gross_amount' => $order->total_price,
             ],
             'customer_details' => [
@@ -77,9 +75,37 @@ class OrderController extends Controller
         ];
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-        return view('formorder',[  'judul' => 'Order Karangan Bunga',
-        'order' => $order,
-        'snapToken' => $snapToken, // Kirim token ke view;
-    ]);
+
+        return redirect()
+            ->route('paymentorder', [
+                'orderId' => $order->id,
+                'produkId' => $request->produk_id,
+                'snapToken' => $snapToken,
+            ])
+            ->with('success', 'Data berhasil disimpan.');
+    }
+
+    public function paymentorder(string $orderId, string $produkId, string $snapToken)
+    {
+        $order = Order::findOrFail($orderId);
+        $produk = Produk::findOrFail($produkId);
+
+        return view('paymentorder', [
+            'judul' => 'Halaman Pembayaran Order Karangan Bunga',
+            'order' => $order,
+            'produk' => $produk,
+            'snapToken' => $snapToken, // Kirimkan token ke view
+        ]);
+    }
+
+    public function callback(Request $request){
+        $serverkey = config('midtrans.server_key');
+        $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$serverkey);
+        if($hashed == $request->signature_key){
+            if($request->transaction_status == 'capture'){
+                $order = Order::find($request->order_id);
+                $order->update(attributes: ['status' => 'paid']);
+            }
+        }
     }
 }
